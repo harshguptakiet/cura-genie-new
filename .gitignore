@@ -28,14 +28,29 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-.pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
-.env*
+# local env files
+.env*.local
+.env
 
 # vercel
 .vercel
 
 # typescript
 *.tsbuildinfo
+next-env.d.ts
+
+# ML Models (too large for GitHub)
+*.h5
+*.pkl
+*.model
+*.bin
+models/
+
+# Backend specific
+curagenie-backend/.env
+curagenie-backend/models/
+curagenie-backend/uploads/
+curagenie-backend/__pycache__/
+curagenie-backend/**/__pycache__/
 next-env.d.ts

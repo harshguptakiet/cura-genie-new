@@ -27,8 +27,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy application code
 COPY . .
 
-# Create necessary directories
+# Create necessary directories and setup models
 RUN mkdir -p uploads models
+RUN python setup_models.py
 
 # Create non-root user
 RUN useradd --create-home --shell /bin/bash curagenie
