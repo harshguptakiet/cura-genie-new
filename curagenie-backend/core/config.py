@@ -19,7 +19,7 @@ class Settings(BaseSettings):
     # Application
     secret_key: str = "your-super-secret-key-here"
     debug: bool = True
-    cors_origins: str = "http://localhost:3000,http://127.0.0.1:3000"
+    cors_origins: str = "http://localhost:3000,http://127.0.0.1:3000,https://cura-g.vercel.app"
     
     # Celery
     celery_broker_url: str = "redis://localhost:6379/0"
