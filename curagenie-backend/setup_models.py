@@ -8,10 +8,23 @@ cannot be included in the repository due to size constraints.
 import os
 import pickle
 import numpy as np
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.model_selection import train_test_split
-from sklearn.datasets import make_classification
-import tensorflow as tf
+
+# Try to import ML dependencies, create placeholders if not available
+try:
+    from sklearn.ensemble import RandomForestClassifier
+    from sklearn.model_selection import train_test_split
+    from sklearn.datasets import make_classification
+    SKLEARN_AVAILABLE = True
+except ImportError:
+    print("⚠️ Scikit-learn not available, creating placeholder models")
+    SKLEARN_AVAILABLE = False
+
+try:
+    import tensorflow as tf
+    TENSORFLOW_AVAILABLE = True
+except ImportError:
+    print("⚠️ TensorFlow not available, creating placeholder models")
+    TENSORFLOW_AVAILABLE = False
 
 def create_models_directory():
     """Create models directory if it doesn't exist."""
@@ -20,6 +33,13 @@ def create_models_directory():
 
 def create_brain_tumor_model():
     """Create a minimal CNN model for brain tumor detection."""
+    if not TENSORFLOW_AVAILABLE:
+        # Create placeholder file
+        with open('models/brain_tumor_model.h5', 'w') as f:
+            f.write("# Placeholder model file - TensorFlow not available during build")
+        print("⚠️ Created placeholder brain tumor model (TensorFlow not available)")
+        return
+        
     try:
         # Create a simple CNN model
         model = tf.keras.Sequential([
@@ -50,41 +70,59 @@ def create_brain_tumor_model():
 def create_sklearn_models():
     """Create minimal sklearn models for other predictions."""
     
-    # Create synthetic datasets
-    X_alzheimer, y_alzheimer = make_classification(n_samples=1000, n_features=10, n_classes=2, random_state=42)
-    X_diabetes, y_diabetes = make_classification(n_samples=1000, n_features=8, n_classes=2, random_state=42)
+    model_names = ['alzheimer_model.pkl', 'diabetes_model.pkl', 'diabetes_risk_model.pkl']
     
-    # Train simple models
-    models = {
-        'alzheimer_model.pkl': RandomForestClassifier(n_estimators=50, random_state=42),
-        'diabetes_model.pkl': RandomForestClassifier(n_estimators=50, random_state=42),
-        'diabetes_risk_model.pkl': RandomForestClassifier(n_estimators=50, random_state=42)
-    }
-    
-    datasets = {
-        'alzheimer_model.pkl': (X_alzheimer, y_alzheimer),
-        'diabetes_model.pkl': (X_diabetes, y_diabetes),
-        'diabetes_risk_model.pkl': (X_diabetes, y_diabetes)
-    }
-    
-    for model_name, model in models.items():
-        try:
-            X, y = datasets[model_name]
-            X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-            
-            # Train the model
-            model.fit(X_train, y_train)
-            
-            # Save the model
+    if not SKLEARN_AVAILABLE:
+        # Create placeholder files
+        for model_name in model_names:
             with open(f'models/{model_name}', 'wb') as f:
-                pickle.dump(model, f)
+                pickle.dump({'error': 'placeholder model - scikit-learn not available'}, f)
+            print(f"⚠️ Created placeholder {model_name} (scikit-learn not available)")
+        return
+    
+    try:
+        # Create synthetic datasets
+        X_alzheimer, y_alzheimer = make_classification(n_samples=1000, n_features=10, n_classes=2, random_state=42)
+        X_diabetes, y_diabetes = make_classification(n_samples=1000, n_features=8, n_classes=2, random_state=42)
+        
+        # Train simple models
+        models = {
+            'alzheimer_model.pkl': RandomForestClassifier(n_estimators=50, random_state=42),
+            'diabetes_model.pkl': RandomForestClassifier(n_estimators=50, random_state=42),
+            'diabetes_risk_model.pkl': RandomForestClassifier(n_estimators=50, random_state=42)
+        }
+        
+        datasets = {
+            'alzheimer_model.pkl': (X_alzheimer, y_alzheimer),
+            'diabetes_model.pkl': (X_diabetes, y_diabetes),
+            'diabetes_risk_model.pkl': (X_diabetes, y_diabetes)
+        }
+        
+        for model_name, model in models.items():
+            try:
+                X, y = datasets[model_name]
+                X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
                 
-            accuracy = model.score(X_test, y_test)
-            print(f"✅ Created {model_name} (accuracy: {accuracy:.2f})")
-            
-        except Exception as e:
-            print(f"❌ Error creating {model_name}: {e}")
-            # Create placeholder file
+                # Train the model
+                model.fit(X_train, y_train)
+                
+                # Save the model
+                with open(f'models/{model_name}', 'wb') as f:
+                    pickle.dump(model, f)
+                    
+                accuracy = model.score(X_test, y_test)
+                print(f"✅ Created {model_name} (accuracy: {accuracy:.2f})")
+                
+            except Exception as e:
+                print(f"❌ Error creating {model_name}: {e}")
+                # Create placeholder file
+                with open(f'models/{model_name}', 'wb') as f:
+                    pickle.dump({'error': 'placeholder model'}, f)
+                    
+    except Exception as e:
+        print(f"❌ Error in sklearn models setup: {e}")
+        # Create placeholder files for all models
+        for model_name in model_names:
             with open(f'models/{model_name}', 'wb') as f:
                 pickle.dump({'error': 'placeholder model'}, f)
 
