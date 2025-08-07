@@ -1,0 +1,7 @@
+##fileformat=VCFv4.2
+##reference=file:///path/to/reference.fasta
+##INFO=<ID=DP,Number=1,Type=Integer,Description="Total Depth">
+##INFO=<ID=AF,Number=A,Type=Float,Description="Allele Frequency">
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO
+1	230710048	rs7903146	C	T	999	PASS	DP=100;AF=0.35
+2	165310406	rs12255372	G	T	999	PASS	DP=95;AF=0.28

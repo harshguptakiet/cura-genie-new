@@ -1,0 +1,22 @@
+<svg width="150" height="150" viewBox="0 0 150 150" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle -->
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0066ff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#00b4d8;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <circle cx="75" cy="75" r="75" fill="url(#bgGradient)"/>
+  
+  <!-- Person icon -->
+  <g transform="translate(75,75)">
+    <!-- Head -->
+    <circle cx="0" cy="-15" r="20" fill="white" opacity="0.9"/>
+    <!-- Body -->
+    <ellipse cx="0" cy="25" rx="30" ry="35" fill="white" opacity="0.9"/>
+  </g>
+  
+  <!-- Initials -->
+  <text x="75" y="85" font-family="Inter, Arial, sans-serif" font-size="32" font-weight="bold" text-anchor="middle" fill="white">HG</text>
+</svg>

@@ -1,0 +1,7 @@
+##fileformat=VCFv4.2
+##reference=GRCh38
+##contig=<ID=chr1,length=248956422>
+##INFO=<ID=AF,Number=A,Type=Float,Description="Allele Frequency">
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO	FORMAT	SAMPLE1
+chr1	230710048	rs429358	T	C	60	PASS	AF=0.15	GT:AD:DP	0/1:15,10:25
+chr1	230710048	rs7412	C	T	60	PASS	AF=0.07	GT:AD:DP	0/0:20,5:25
