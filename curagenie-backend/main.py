@@ -7,14 +7,32 @@ from core.config import settings
 from core.websockets import connection_manager
 from db.database import create_tables
 
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+)
+logger = logging.getLogger(__name__)
+
 # Import APIs with error handling
+ML_APIS_AVAILABLE = False
+ENHANCED_MRI_AVAILABLE = False
+
+# Always import core APIs first
 try:
-    from api import genomic, prs, ml, chatbot, local_upload, auth, profile, reports, direct_prs, timeline, genomic_variants, mri_analysis
-    ML_APIS_AVAILABLE = True
-except ImportError as e:
-    logging.warning(f"Some ML APIs could not be imported: {e}")
-    # Import non-ML APIs only
     from api import auth, profile, reports, local_upload
+    logger.info("✅ Core APIs imported successfully")
+except ImportError as e:
+    logger.error(f"❌ Failed to import core APIs: {e}")
+    # Create minimal auth API if needed
+
+# Try to import ML APIs
+try:
+    from api import genomic, prs, ml, chatbot, direct_prs, timeline, genomic_variants, mri_analysis
+    ML_APIS_AVAILABLE = True
+    logger.info("✅ ML APIs imported successfully")
+except ImportError as e:
+    logger.warning(f"⚠️ ML APIs not available: {e}")
     ML_APIS_AVAILABLE = False
 
 # Try to import enhanced MRI analysis
@@ -22,15 +40,8 @@ try:
     from api import enhanced_mri_analysis
     ENHANCED_MRI_AVAILABLE = True
 except ImportError as e:
-    logging.warning(f"Enhanced MRI analysis not available: {e}")
+    logger.warning(f"Enhanced MRI analysis not available: {e}")
     ENHANCED_MRI_AVAILABLE = False
-
-# Configure logging
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-)
-logger = logging.getLogger(__name__)
 
 # Create FastAPI app
 app = FastAPI(
