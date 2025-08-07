@@ -1,13 +1,9 @@
 [build]
-builder = "DOCKERFILE"
-dockerfile = "Dockerfile"
+# Use Railway's Python buildpack auto-detection instead of Docker
+builder = "NIXPACKS"
 
 [deploy]
+startCommand = "uvicorn main:app --host 0.0.0.0 --port $PORT"
 healthcheckPath = "/health"
-healthcheckTimeout = 300
+healthcheckTimeout = 30
 restartPolicyType = "ON_FAILURE"
-restartPolicyMaxRetries = 10
-
-[env]
-PYTHONPATH = "/app"
-PORT = "8000"

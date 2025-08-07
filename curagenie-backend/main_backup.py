@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Ultra-minimal FastAPI app for Railway deployment
-This is a stripped-down version to ensure deployment works
+This is main.py to work with Railway's Python auto-detection
 """
 
 import os
