@@ -50,7 +50,11 @@ export const useAuthStore = create<AuthState>()(
       login: async (email: string, password: string, rememberMe: boolean = false) => {
         set({ isLoading: true })
         try {
-          console.log('Attempting login with:', email)
+          console.log('=== LOGIN DEBUGGING START ===')
+          console.log('API_BASE_URL:', API_BASE_URL)
+          console.log('Attempting login with email:', email)
+          console.log('Full URL:', `${API_BASE_URL}/api/auth/login`)
+          
           const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
             method: 'POST',
             headers: {
@@ -60,6 +64,7 @@ export const useAuthStore = create<AuthState>()(
           })
 
           console.log('Login response status:', response.status)
+          console.log('Login response headers:', Object.fromEntries(response.headers.entries()))
           
           if (!response.ok) {
             const errorText = await response.text()
