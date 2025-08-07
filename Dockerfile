@@ -1,33 +1,24 @@
-# CuraGenie Frontend Dockerfile - Optimized for Railway/Vercel
+# This Dockerfile is not needed for Railway deployment
+# Railway supports Next.js natively without Docker
+# Use this file only if you want to deploy with Docker on other platforms
+
 FROM node:18-alpine
 
-# Set working directory
 WORKDIR /app
 
-# Install dependencies
 RUN apk add --no-cache libc6-compat
 
-# Copy package files
 COPY package*.json ./
+RUN npm ci
 
-# Install all dependencies (including devDependencies for build)
-RUN npm install
-
-# Copy source code
 COPY . .
 
-# Set environment variables
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 
-# Build the application
 RUN npm run build
 
-# Expose port
 EXPOSE 3000
-
-# Set port environment variable
 ENV PORT=3000
 
-# Start the application
 CMD ["npm", "start"]
