@@ -54,3 +54,5 @@ curagenie-backend/uploads/
 curagenie-backend/__pycache__/
 curagenie-backend/**/__pycache__/
 next-env.d.ts
+
+.vercel

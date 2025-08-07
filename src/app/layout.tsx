@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -16,6 +16,13 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  colorScheme: 'dark',
+  themeColor: '#0891b2',
+};
+
 export const metadata: Metadata = {
   title: "CuraGenie - AI-Powered Healthcare Platform",
   description: "Transform your healthcare experience with our intelligent medical platform featuring AI diagnostics, virtual consultations, and personalized health insights.",
@@ -25,9 +32,6 @@ export const metadata: Metadata = {
   applicationName: 'CuraGenie',
   generator: 'Next.js',
   referrer: 'origin-when-cross-origin',
-  colorScheme: 'dark',
-  themeColor: '#0891b2',
-  viewport: 'width=device-width, initial-scale=1',
   robots: {
     index: true,
     follow: true,
